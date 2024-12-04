@@ -1,0 +1,32 @@
+version: '3'
+services:
+  barracao_manager_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    depends_on:
+      - barracao_manager_mongo
+    environment:
+      - MONGO_URI=
+      - JWT_TOKEN=
+      - SALTS_ROUNDS=
+    networks:
+      - barracao_manager_network
+    container_name: barracao_manager_server
+
+  barracao_manager_mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=
+      - MONGO_INITDB_ROOT_PASSWORD=
+    ports:
+      - '27017:27017'
+      - '0.0.0.0:27017:27017'
+    networks:
+      - barracao_manager_network
+    container_name: barracao_manager_mongo
+
+networks:
+  barracao_manager_network:
