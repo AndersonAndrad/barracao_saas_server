@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Remove the previous Docker image (if exists)
-docker image rm -f personal_saas_server-personal_server:latest
+docker image rm -f barracao_saas_server:latest
 
 # Build the new Docker image
 docker-compose build

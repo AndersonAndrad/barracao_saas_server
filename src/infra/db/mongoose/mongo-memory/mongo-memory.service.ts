@@ -8,7 +8,7 @@ export class MongoInMemory {
     private mongoConnection: Connection,
   ) {}
 
-  public async startServer(): Promise<MongoInMemory> {
+  static async startServer(): Promise<MongoInMemory> {
     const mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
     const mongoConnection = (await connect(mongoUri)).connection;
@@ -18,13 +18,13 @@ export class MongoInMemory {
     return new MongoInMemory(mongoServer, mongoConnection);
   }
 
-  public async shutdown() {
+  async shutdown() {
     await this.mongoConnection.dropDatabase();
     await this.mongoConnection.close();
     await this.mongoServer.stop();
   }
 
-  public async clearCollections() {
+  async clearCollections() {
     const collections = this.mongoConnection.collections;
     for (const key in collections) {
       const collection = collections[key];

@@ -22,7 +22,9 @@ export class MongooseModuleConfiguration implements OnApplicationBootstrap, OnAp
         minPoolSize: 100,
         maxIdleTimeMS: 30000,
       })
-      .then(() => this.logger.verbose('MongooseDb connected successfully.'))
-      .catch((err) => this.logger.error(err.message));
+      .then(() => this.logger.verbose(`MongooseDb connected successfully: ${this.options.uri}`))
+      .catch((err) => {
+        this.logger.error(`MongooseDb connection error: ${err.message}: ${this.options.uri}`);
+      });
   }
 }
