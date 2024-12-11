@@ -29,8 +29,9 @@ export interface DispatchError {
 
 export const validateTypeError = (error: any): TypeError => {
   const notFoundRegex = /Cast to ObjectId failed for value/;
+  const notConvertUndefined = / Cannot convert undefined or null to object/;
 
-  if (notFoundRegex.test(error)) return TypeError.NOT_FOUND;
+  if (notFoundRegex.test(error) || notConvertUndefined.test(error)) return TypeError.NOT_FOUND;
 
   return TypeError.GENERIC;
 };

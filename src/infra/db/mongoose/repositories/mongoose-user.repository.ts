@@ -3,6 +3,8 @@ import { UserRepository } from '../../../../core/db-repositories/user.repository
 import { User } from '../../../../core/interfaces/user.interface';
 import { UserModel } from '../schemas/user.schema';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
+import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
+import { paginationUtils } from '../utils/paginationUtils';
 
 export const UserRepositorySymbol = Symbol('UserRepositoryDb');
 
@@ -46,9 +48,16 @@ export class MongooseUserRepository implements UserRepository {
     return formatMongoDocuments<User>(userAfterUpdate);
   }
 
-  async allUsers(): Promise<User[]> {
-    const users = await UserModel.find({}, this.userProjection);
+  async find(filter: any): Promise<PaginationResponse<User>> {
+    const totalDocs: number = await UserModel.countDocuments();
 
-    return formatMongoDocuments<User[]>(users);
+    const { skip, total } = paginationUtils(filter, totalDocs);
+
+    const items = await UserModel.find().skip(skip).limit(filter.size).exec();
+
+    return {
+      items: formatMongoDocuments(items),
+      total,
+    };
   }
 }

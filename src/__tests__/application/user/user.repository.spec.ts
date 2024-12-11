@@ -38,9 +38,9 @@ describe('User repository', () => {
 
     expect(user).toBeDefined();
 
-    const { _id, ...rest } = user;
+    delete user._id;
 
-    expect(rest).toMatchObject(userToCreate);
+    expect(user).toMatchObject(userToCreate);
   });
 
   test('should be find one user', async () => {
@@ -92,8 +92,6 @@ describe('User repository', () => {
 
     await repository.deleteOne(userCreated._id);
 
-    await expect(repository.findOne(userCreated._id)).rejects.toThrowError(
-      `User with id ${userCreated._id} not found`,
-    );
+    await expect(repository.findOne(userCreated._id)).rejects.toThrowError(`User with id ${userCreated._id} not found`);
   });
 });

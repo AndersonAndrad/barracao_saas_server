@@ -6,6 +6,7 @@ import { MongooseModuleConfiguration } from './infra/db/mongoose/mongoose.module
 import { ScheduleModule } from '@nestjs/schedule';
 import configuration from './core/configuration/configuration';
 import { UserModule } from './application/user/user.module';
+import { InventoryModule } from './application/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './application/user/user.module';
     ScheduleModule.forRoot(),
     // Application modules
     UserModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

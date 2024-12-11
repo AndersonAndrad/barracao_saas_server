@@ -4,6 +4,7 @@ import { User } from '../../../core/interfaces/user.interface';
 import { UserRepositorySymbol } from '../../../infra/db/mongoose/repositories/mongoose-user.repository';
 import { UserRepository } from '../../../core/db-repositories/user.repository';
 import { CreateUserDto } from '../../../core/dto/user/create-user.dto';
+import { PaginationResponse } from '../../../core/interfaces/pagination.interface';
 
 @Injectable()
 export class UserCrudService implements CrudTemplate<User> {
@@ -29,7 +30,7 @@ export class UserCrudService implements CrudTemplate<User> {
     return this.userRepository.updateOne(userId, user);
   }
 
-  allUsers(): Promise<User[]> {
-    return this.userRepository.allUsers();
+  find(filter: any): Promise<PaginationResponse<User>> {
+    return this.userRepository.find(filter);
   }
 }
