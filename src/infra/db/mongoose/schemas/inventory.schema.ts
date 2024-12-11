@@ -21,4 +21,7 @@ const inventorySchema = new mongoose.Schema<Omit<Inventory, '_id'>>({
   expirationDate: { type: Date },
 });
 
-export const InventoryModel: mongoose.Model<Omit<Inventory, '_id'>> = mongoose.model('inventory', inventorySchema);
+export const InventoryModel: mongoose.Model<Omit<Inventory, '_id'>> = mongoose.model(
+  'inventory',
+  inventorySchema,
+);

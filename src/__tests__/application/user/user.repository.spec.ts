@@ -92,6 +92,8 @@ describe('User repository', () => {
 
     await repository.deleteOne(userCreated._id);
 
-    await expect(repository.findOne(userCreated._id)).rejects.toThrowError(`User with id ${userCreated._id} not found`);
+    await expect(repository.findOne(userCreated._id)).rejects.toThrowError(
+      `User with id ${userCreated._id} not found`,
+    );
   });
 });
