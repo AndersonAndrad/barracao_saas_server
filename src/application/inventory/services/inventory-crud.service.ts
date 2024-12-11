@@ -5,24 +5,24 @@ import { PaginationResponse } from '../../../core/interfaces/pagination.interfac
 import { InventoryRepositorySymbol } from '../../../infra/db/mongoose/repositories/mongoose-inventory.repository';
 import { InventoryRepository } from '../../../core/db-repositories/inventory.repository';
 import { CreateInventoryDto } from '../../../core/dto/inventory/create-inventory.dto';
-import { InventoryStockHistoryService } from './inventory-stock-history.service';
+import { SyncInventoryStockHistoryService } from '../../inventory-stock-history/services/sync-inventory-stock-history.service';
 
 @Injectable()
 export class InventoryCrudService implements CrudTemplate<Inventory> {
   constructor(
     @Inject(InventoryRepositorySymbol) private readonly inventoryRepository: InventoryRepository,
-    private readonly inventoryStockHistory: InventoryStockHistoryService,
+    private readonly syncInventoryStockHistoryService: SyncInventoryStockHistoryService,
   ) {}
 
   async create(entity: CreateInventoryDto): Promise<Inventory> {
-    let item = await this.inventoryRepository.create({
+    const item = await this.inventoryRepository.create({
       ...entity,
       stockHistory: [],
       dateAdded: new Date(),
       lastUpdated: new Date(),
     });
 
-    item = await this.inventoryStockHistory.syncStockHistoryByCreation(item);
+    await this.syncInventoryStockHistoryService.create(item);
 
     return item;
   }
@@ -40,8 +40,13 @@ export class InventoryCrudService implements CrudTemplate<Inventory> {
   }
 
   async updateOne(entityId: string, entity: Partial<Omit<Inventory, '_id'>>): Promise<Inventory> {
-    const item: Inventory = await this.inventoryRepository.updateOne(entityId, { ...entity, lastUpdated: new Date() });
+    const item: Inventory = await this.inventoryRepository.updateOne(entityId, {
+      ...entity,
+      lastUpdated: new Date(),
+    });
 
-    return await this.inventoryStockHistory.syncStockHistoryByUpdate(item);
+    await this.syncInventoryStockHistoryService.create(item);
+
+    return item;
   }
 }

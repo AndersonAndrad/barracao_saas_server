@@ -5,19 +5,18 @@ import {
   InventoryRepositorySymbol,
   MongooseInventoryRepository,
 } from '../../infra/db/mongoose/repositories/mongoose-inventory.repository';
-import { InventoryStockHistoryService } from './services/inventory-stock-history.service';
+import { InventoryStockHistoryModule } from '../inventory-stock-history/inventory-stock-history.module';
 
 @Module({
   controllers: [InventoryController],
   providers: [
     InventoryCrudService,
-    InventoryStockHistoryService,
     {
       provide: InventoryRepositorySymbol,
       useClass: MongooseInventoryRepository,
     },
   ],
-  imports: [],
+  imports: [InventoryStockHistoryModule],
   exports: [InventoryCrudService],
 })
 export class InventoryModule {}

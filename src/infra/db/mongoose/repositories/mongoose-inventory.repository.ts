@@ -1,10 +1,11 @@
 import { InventoryRepository } from '../../../../core/db-repositories/inventory.repository';
-import { FilterInventory, Inventory, StockHistory } from '../../../../core/interfaces/inventory.interface';
+import { FilterInventory, Inventory } from '../../../../core/interfaces/inventory.interface';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
 import { InventoryModel } from '../schemas/inventory.schema';
 import { paginationUtils } from '../utils/paginationUtils';
+import { StockHistory } from '../../../../core/interfaces/inventory-stock-history.interface';
 
 export const InventoryRepositorySymbol = Symbol('InventoryRepositoryDb');
 

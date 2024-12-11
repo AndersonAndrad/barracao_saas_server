@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import configuration from './core/configuration/configuration';
 import { UserModule } from './application/user/user.module';
 import { InventoryModule } from './application/inventory/inventory.module';
+import { InventoryStockHistoryModule } from './application/inventory-stock-history/inventory-stock-history.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { InventoryModule } from './application/inventory/inventory.module';
     // Application modules
     UserModule,
     InventoryModule,
+    InventoryStockHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

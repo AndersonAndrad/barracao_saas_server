@@ -4,14 +4,7 @@ import {
   InventoryCategory,
   InventoryStatus,
   Measurement,
-  StockHistory,
 } from '../../../../core/interfaces/inventory.interface';
-
-const StockHistorySchema = new mongoose.Schema<StockHistory>({
-  beforeUpdate: { type: Number },
-  quantityChanged: { type: Number },
-  total: { type: Number },
-});
 
 const inventorySchema = new mongoose.Schema<Omit<Inventory, '_id'>>({
   name: { type: String, required: true },
@@ -22,7 +15,6 @@ const inventorySchema = new mongoose.Schema<Omit<Inventory, '_id'>>({
   quantityStock: { type: Number },
   reorderLevel: { type: Number },
   reorderQuantity: { type: Number },
-  stockHistory: { type: [StockHistorySchema] },
   dateAdded: { type: Date },
   lastUpdated: { type: Date },
   unitMeasure: { type: String, enum: Measurement },

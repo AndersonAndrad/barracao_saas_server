@@ -22,7 +22,7 @@ export class FilterPaginationInterceptor implements NestInterceptor {
     if (!filter?.size) {
       filter.size = 10;
     } else {
-      filter.size = filter.size === '0' ? 1 : Number(filter.page);
+      filter.size = filter.size === '0' ? 1 : Number(filter.size);
     }
 
     if (filter.size >= 100) {

@@ -11,16 +11,9 @@ export interface Inventory {
   unitMeasure?: Measurement;
   dateAdded: Date;
   lastUpdated: Date;
-  stockHistory: StockHistory[];
   status: InventoryStatus;
   expirationDate?: Date;
   code: string;
-}
-
-export interface StockHistory {
-  beforeUpdate: number;
-  quantityChanged: number;
-  total: number;
 }
 
 export interface FilterInventory extends PaginationRequest {}

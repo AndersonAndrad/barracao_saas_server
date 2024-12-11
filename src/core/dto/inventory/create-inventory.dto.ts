@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import Omit = util.Omit;
 
-export class CreateInventoryDto implements Omit<Inventory, '_id' | 'dateAdded' | 'lastUpdated' | 'stockHistory'> {
+export class CreateInventoryDto implements Omit<Inventory, '_id' | 'dateAdded' | 'lastUpdated'> {
   @ApiProperty({ description: 'Category of the inventory item, example: Electronic' })
   @IsEnum(InventoryCategory)
   @IsNotEmpty()
