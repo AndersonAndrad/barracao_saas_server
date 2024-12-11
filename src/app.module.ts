@@ -8,6 +8,7 @@ import configuration from './core/configuration/configuration';
 import { UserModule } from './application/user/user.module';
 import { InventoryModule } from './application/inventory/inventory.module';
 import { InventoryStockHistoryModule } from './application/inventory-stock-history/inventory-stock-history.module';
+import { BillModule } from './application/bill/bill.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { InventoryStockHistoryModule } from './application/inventory-stock-histo
     UserModule,
     InventoryModule,
     InventoryStockHistoryModule,
+    BillModule,
   ],
   controllers: [AppController],
   providers: [AppService],
