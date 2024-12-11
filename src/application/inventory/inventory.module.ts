@@ -3,7 +3,7 @@ import { InventoryController } from './inventory.controller';
 import { InventoryCrudService } from './services/inventory-crud.service';
 import {
   InventoryRepositorySymbol,
-  MongooseInvetoryRepository,
+  MongooseInventoryRepository,
 } from '../../infra/db/mongoose/repositories/mongoose-inventory.repository';
 import { InventoryStockHistoryService } from './services/inventory-stock-history.service';
 
@@ -14,7 +14,7 @@ import { InventoryStockHistoryService } from './services/inventory-stock-history
     InventoryStockHistoryService,
     {
       provide: InventoryRepositorySymbol,
-      useClass: MongooseInvetoryRepository,
+      useClass: MongooseInventoryRepository,
     },
   ],
   imports: [],

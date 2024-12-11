@@ -40,10 +40,8 @@ export class InventoryCrudService implements CrudTemplate<Inventory> {
   }
 
   async updateOne(entityId: string, entity: Partial<Omit<Inventory, '_id'>>): Promise<Inventory> {
-    let item = await this.inventoryRepository.updateOne(entityId, { ...entity, lastUpdated: new Date() });
+    const item: Inventory = await this.inventoryRepository.updateOne(entityId, { ...entity, lastUpdated: new Date() });
 
-    item = await this.inventoryStockHistory.syncStockHistoryByUpdate(item);
-
-    return item;
+    return await this.inventoryStockHistory.syncStockHistoryByUpdate(item);
   }
 }

@@ -1,5 +1,5 @@
 import { InventoryRepository } from '../../../../core/db-repositories/inventory.repository';
-import { FilterInventory, Inventory } from '../../../../core/interfaces/inventory.interface';
+import { FilterInventory, Inventory, StockHistory } from '../../../../core/interfaces/inventory.interface';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
@@ -9,7 +9,25 @@ import { paginationUtils } from '../utils/paginationUtils';
 export const InventoryRepositorySymbol = Symbol('InventoryRepositoryDb');
 
 @Injectable()
-export class MongooseInvetoryRepository implements InventoryRepository {
+export class MongooseInventoryRepository implements InventoryRepository {
+  async syncStockHistory(entityId: string, stockHistory: StockHistory): Promise<Inventory> {
+    const updateWriteOpResult = await InventoryModel.updateOne(
+      { _id: entityId },
+      {
+        $push: {
+          stockHistory: {
+            $each: [stockHistory],
+            $position: 0,
+          },
+        },
+      },
+    );
+
+    if (!updateWriteOpResult.modifiedCount) return;
+
+    return await this.findOne(entityId);
+  }
+
   async create(entity: Omit<Inventory, '_id'>): Promise<Inventory> {
     const item = await InventoryModel.create(entity);
 

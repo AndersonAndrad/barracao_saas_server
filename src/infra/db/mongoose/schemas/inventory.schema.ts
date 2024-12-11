@@ -9,7 +9,7 @@ import {
 
 const StockHistorySchema = new mongoose.Schema<StockHistory>({
   beforeUpdate: { type: Number },
-  quantityAdded: { type: Number },
+  quantityChanged: { type: Number },
   total: { type: Number },
 });
 

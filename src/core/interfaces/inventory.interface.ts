@@ -19,7 +19,7 @@ export interface Inventory {
 
 export interface StockHistory {
   beforeUpdate: number;
-  quantityAdded: number;
+  quantityChanged: number;
   total: number;
 }
 
