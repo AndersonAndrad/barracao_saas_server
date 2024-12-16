@@ -53,7 +53,10 @@ export class MongooseUserRepository implements UserRepository {
 
     const { skip, total } = paginationUtils(filter, totalDocs);
 
-    const items = await UserModel.find().skip(skip).limit(filter.size).exec();
+    const items = await UserModel.find()
+      .skip(skip)
+      .limit(filter?.size ?? 10)
+      .exec();
 
     return {
       items: formatMongoDocuments(items),
