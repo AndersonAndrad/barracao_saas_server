@@ -1,6 +1,6 @@
 import { User } from '../../interfaces/user.interface';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEmail, IsString, Length } from 'class-validator';
+import { IsDate, IsEmail, IsOptional, IsString, Length } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateUserDto implements Omit<User, '_id' | 'status'> {
@@ -35,4 +35,14 @@ export class CreateUserDto implements Omit<User, '_id' | 'status'> {
   @ApiProperty({ description: 'User name phone', example: '99 99999-9999' })
   @IsString()
   phone: string;
+
+  @ApiProperty({ description: 'base64 with image content' })
+  @IsString()
+  @IsOptional()
+  avatar: string;
+
+  @ApiProperty({ description: 'Color in hex', example: '#ffffff' })
+  @IsString()
+  @IsOptional()
+  color: string;
 }

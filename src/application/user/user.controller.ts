@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CrudTemplate } from '../../shared/templates/crud.template';
 import { FilterUser, User } from '../../core/interfaces/user.interface';
@@ -37,7 +37,7 @@ export class UserController implements CrudTemplate<User> {
     return this.userCrudService.deleteOne(entityId);
   }
 
-  @Put(':entityId')
+  @Patch(':entityId')
   @ApiParam({ name: 'entityId' })
   @ApiOperation({ description: 'Update user by id' })
   updateOne(@Param('entityId') entityId: User['_id'], @Body() entity: UpdateUserDto): Promise<User> {

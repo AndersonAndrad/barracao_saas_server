@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema<User>({
   phone: { type: String },
   birthday: { type: Date },
   alias: { type: String },
+  avatar: { type: String },
+  color: { type: String },
 });
 
 export const UserModel: mongoose.Model<User> = mongoose.model('user', userSchema);

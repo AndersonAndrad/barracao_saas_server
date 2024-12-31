@@ -4,6 +4,7 @@ import swaggerConfig from './infra/swagger/swagger.config';
 
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { json } from 'express';
 
 async function bootstrap() {
   const logger = new Logger('InstanceLoader');
@@ -20,6 +21,11 @@ async function bootstrap() {
   app.enableCors();
 
   app.useGlobalPipes(new ValidationPipe());
+
+  /**
+   * @todo -
+   */
+  app.use(json({ limit: '10mb' }));
 
   await app.listen(port);
 }

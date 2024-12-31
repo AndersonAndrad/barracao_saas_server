@@ -14,6 +14,8 @@ export class MongooseUserRepository implements UserRepository {
     _id: true,
     name: true,
     email: true,
+    avatar: true,
+    color: true,
   };
 
   async create(user: Omit<User, '_id'>): Promise<User> {
