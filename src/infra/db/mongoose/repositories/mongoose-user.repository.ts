@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../../../core/db-repositories/user.repository';
-import { User } from '../../../../core/interfaces/user.interface';
+import { FilterUser, User } from '../../../../core/interfaces/user.interface';
 import { UserModel } from '../schemas/user.schema';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
@@ -50,12 +50,21 @@ export class MongooseUserRepository implements UserRepository {
     return formatMongoDocuments<User>(userAfterUpdate);
   }
 
-  async find(filter: any): Promise<PaginationResponse<User>> {
-    const totalDocs: number = await UserModel.countDocuments();
+  async find(filter: FilterUser): Promise<PaginationResponse<User>> {
+    const finalFilter = {};
+
+    if (filter?.word && filter.word.length) {
+      finalFilter['$or'] = [
+        { name: { $regex: filter.word, $options: 'i' } },
+        { alias: { $regex: filter.word, $options: 'i' } },
+      ];
+    }
+
+    const totalDocs: number = await UserModel.countDocuments(finalFilter);
 
     const { skip, total } = paginationUtils(filter, totalDocs);
 
-    const items = await UserModel.find()
+    const items = await UserModel.find(finalFilter)
       .skip(skip)
       .limit(filter?.size ?? 10)
       .exec();

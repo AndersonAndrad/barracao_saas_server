@@ -1,6 +1,6 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { CrudTemplate } from '../../../shared/templates/crud.template';
-import { User } from '../../../core/interfaces/user.interface';
+import { FilterUser, User } from '../../../core/interfaces/user.interface';
 import { UserRepositorySymbol } from '../../../infra/db/mongoose/repositories/mongoose-user.repository';
 import { UserRepository } from '../../../core/db-repositories/user.repository';
 import { CreateUserDto } from '../../../core/dto/user/create-user.dto';
@@ -30,7 +30,7 @@ export class UserCrudService implements CrudTemplate<User> {
     return this.userRepository.updateOne(userId, user);
   }
 
-  find(filter: any): Promise<PaginationResponse<User>> {
+  find(filter: FilterUser): Promise<PaginationResponse<User>> {
     return this.userRepository.find(filter);
   }
 }

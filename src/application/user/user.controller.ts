@@ -1,11 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CrudTemplate } from '../../shared/templates/crud.template';
-import { FilterUser, User } from '../../core/interfaces/user.interface';
+import { User } from '../../core/interfaces/user.interface';
 import { CreateUserDto } from '../../core/dto/user/create-user.dto';
 import { UserCrudService } from './services/user-crud.service';
 import { UpdateUserDto } from '../../core/dto/user/update-user.dto';
 import { PaginationResponse } from '../../core/interfaces/pagination.interface';
+import { FilterUserDto } from '../../core/dto/user/find-user.dto';
 
 @ApiTags('User')
 @Controller('user')
@@ -19,7 +20,7 @@ export class UserController implements CrudTemplate<User> {
 
   @Get()
   @ApiOperation({ summary: 'Get all users paginated' })
-  find(filter: FilterUser): Promise<PaginationResponse<User>> {
+  find(@Query() filter: FilterUserDto): Promise<PaginationResponse<User>> {
     return this.userCrudService.find(filter);
   }
 

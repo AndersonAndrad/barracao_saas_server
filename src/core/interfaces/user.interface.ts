@@ -20,4 +20,6 @@ export enum UserStatus {
   AWAY = 'away',
 }
 
-export interface FilterUser extends PaginationRequest {}
+export interface FilterUser extends PaginationRequest {
+  word?: string;
+}
