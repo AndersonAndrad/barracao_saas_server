@@ -23,7 +23,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   /**
-   * @todo -
+   * @todo - refactoring, change to implement to only necessary method
    */
   app.use(json({ limit: '10mb' }));
 

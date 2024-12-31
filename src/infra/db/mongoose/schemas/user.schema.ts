@@ -3,7 +3,7 @@ import { User, UserStatus } from '../../../../core/interfaces/user.interface';
 
 const userSchema = new mongoose.Schema<User>({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   status: { type: String, enum: UserStatus },
   phone: { type: String },
