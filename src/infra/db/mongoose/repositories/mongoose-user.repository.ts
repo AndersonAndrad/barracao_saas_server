@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from '../../../../core/db-repositories/user.repository';
-import { FilterUser, User } from '../../../../core/interfaces/user.interface';
+import { FilterUser, UpdatePassword, User } from '../../../../core/interfaces/user.interface';
 import { UserModel } from '../schemas/user.schema';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
@@ -73,5 +73,15 @@ export class MongooseUserRepository implements UserRepository {
       items: formatMongoDocuments(items),
       total,
     };
+  }
+
+  async updatePassword(userId: User['_id'], props: Pick<UpdatePassword, 'password'>): Promise<void> {
+    await UserModel.updateOne({ _id: userId }, { password: props.password });
+  }
+
+  async getUserPassword(userId: User['_id']): Promise<{ password: string }> {
+    const user = await UserModel.findOne({ _id: userId }, { password: true });
+
+    return formatMongoDocuments(user);
   }
 }

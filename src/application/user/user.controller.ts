@@ -7,11 +7,16 @@ import { UserCrudService } from './services/user-crud.service';
 import { UpdateUserDto } from '../../core/dto/user/update-user.dto';
 import { PaginationResponse } from '../../core/interfaces/pagination.interface';
 import { FilterUserDto } from '../../core/dto/user/find-user.dto';
+import { UserPasswordService } from './services/user-password.service';
+import { UpdatePasswordDto } from '../../core/dto/user/update-password.dto';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController implements CrudTemplate<User> {
-  constructor(private readonly userCrudService: UserCrudService) {}
+  constructor(
+    private readonly userCrudService: UserCrudService,
+    private readonly userPasswordService: UserPasswordService,
+  ) {}
 
   @Post()
   create(@Body() entity: CreateUserDto): Promise<User> {
@@ -43,5 +48,12 @@ export class UserController implements CrudTemplate<User> {
   @ApiOperation({ description: 'Update user by id' })
   updateOne(@Param('entityId') entityId: User['_id'], @Body() entity: UpdateUserDto): Promise<User> {
     return this.userCrudService.updateOne(entityId, entity);
+  }
+
+  @Patch('reset-password/:entityId')
+  @ApiParam({ name: 'entityId' })
+  @ApiOperation({ description: 'change user password' })
+  resetPassword(@Param('entityId') entityId: User['_id'], @Body() props: UpdatePasswordDto): Promise<void> {
+    return this.userPasswordService.updatePassword(entityId, props);
   }
 }

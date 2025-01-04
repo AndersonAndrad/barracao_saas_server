@@ -23,3 +23,13 @@ export enum UserStatus {
 export interface FilterUser extends PaginationRequest {
   word?: string;
 }
+
+export interface UpdatePassword {
+  password: string;
+  newPassword: string;
+  confirmationPassword: string;
+}
+
+export enum UsersMessages {
+  PASSWORD_NOT_MATCH = 'Passwords do not match, not is possible update',
+}
