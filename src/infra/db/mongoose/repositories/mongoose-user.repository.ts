@@ -1,22 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../../../core/db-repositories/user.repository';
 import { FilterUser, UpdatePassword, User } from '../../../../core/interfaces/user.interface';
-import { UserModel } from '../schemas/user.schema';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
+
+import { Injectable } from '@nestjs/common';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
+import { UserModel } from '../schemas/user.schema';
+import { UserRepository } from '../../../../core/db-repositories/user.repository';
 import { paginationUtils } from '../utils/paginationUtils';
 
 export const UserRepositorySymbol = Symbol('UserRepositoryDb');
 
 @Injectable()
 export class MongooseUserRepository implements UserRepository {
-  private readonly userProjection = {
-    _id: true,
-    name: true,
-    email: true,
-    avatar: true,
-    color: true,
-  };
+  async getByEmail(email: User['email']): Promise<User> {
+    const user = await UserModel.findOne({ email });
+
+    return formatMongoDocuments<User>(user);
+  }
 
   async create(user: Omit<User, '_id'>): Promise<User> {
     const userCreated = await UserModel.create(user);
@@ -84,4 +83,12 @@ export class MongooseUserRepository implements UserRepository {
 
     return formatMongoDocuments(user);
   }
+
+  private readonly userProjection = {
+    _id: true,
+    name: true,
+    email: true,
+    avatar: true,
+    color: true,
+  };
 }

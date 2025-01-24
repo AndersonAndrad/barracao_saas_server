@@ -30,6 +30,13 @@ export interface UpdatePassword {
   confirmationPassword: string;
 }
 
-export enum UsersMessages {
-  PASSWORD_NOT_MATCH = 'Passwords do not match, not is possible update',
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
+export enum UserErrors {
+  NOT_FOUND = 'This user can not be founded',
+  UNAUTHORIZED = 'Your user can not be access this action',
+  UNAUTHORIZED_PASSWORD = 'Passwords do not match',
 }
