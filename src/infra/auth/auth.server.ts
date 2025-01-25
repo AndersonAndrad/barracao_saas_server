@@ -9,6 +9,7 @@ import { Injectable } from '@nestjs/common';
 export class AuthService {
   private readonly tokensMap: Map<string, string> = new Map<string, string>();
   private readonly userMap: Map<string, Omit<User, 'password'>> = new Map<string, Omit<User, 'password'>>();
+  private readonly logedUserMap: Map<string, string> = new Map<string, string>();
 
   private readonly HASH_TOKEN: string = `_${new Date().getHours()}`;
   private readonly HASH_REFRESH_TOKEN: string = `${generateHash()}_${new Date().getMilliseconds()}`;
@@ -43,8 +44,12 @@ export class AuthService {
     }
   }
 
-  invalidateToken(props: GenerateToken): void {
-    this.userMap.delete(props.token);
-    this.tokensMap.delete(props.token);
+  invalidateToken(email: string): void {
+    if (this.logedUserMap.has(email)) return;
+
+    const token: string = this.logedUserMap.get(email);
+
+    this.userMap.delete(token);
+    this.tokensMap.delete(token);
   }
 }

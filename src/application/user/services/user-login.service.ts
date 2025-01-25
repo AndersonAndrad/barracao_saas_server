@@ -1,9 +1,9 @@
+import { UserRepository } from '@app/core/db-repositories/user.repository';
 import { GenerateToken } from '@app/core/interfaces/auth.interface';
 import { UserErrors, UserLogin } from '@app/core/interfaces/user.interface';
 import { AuthService } from '@app/infra/auth/auth.server';
+import { UserRepositorySymbol } from '@app/infra/db/mongoose/repositories/mongoose-user.repository';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { UserRepository } from 'src/core/db-repositories/user.repository';
-import { UserRepositorySymbol } from 'src/infra/db/mongoose/repositories/mongoose-user.repository';
 import { UserPasswordService } from './user-password.service';
 
 @Injectable()

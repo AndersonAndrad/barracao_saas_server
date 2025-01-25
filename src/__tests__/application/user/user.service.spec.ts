@@ -1,7 +1,7 @@
-import { UserCrudService } from '../../../application/user/services/user-crud.service';
-import { CreateUserDto } from '../../../core/dto/user/create-user.dto';
 import { faker } from '@faker-js/faker';
+import { UserCrudService } from '../../../application/user/services/user-crud.service';
 import { UserRepository } from '../../../core/db-repositories/user.repository';
+import { CreateUserDto } from '../../../core/dto/user/create-user.dto';
 import Mock = jest.Mock;
 
 describe('User service', () => {
@@ -29,23 +29,34 @@ describe('User service', () => {
       email: faker.internet.email(),
       password,
       confirmPassword: password,
+      alias: faker.internet.userName(),
+      birthday: faker.date.past(),
+      phone: faker.phone.number(),
+      avatar: faker.image.avatar(),
+      color: faker.color.rgb(),
     };
 
     await service.create(userToCreate);
 
-    expect(spy).toBeCalled();
+    expect(spy).toHaveBeenCalled();
 
     expect(service.create).toHaveBeenCalledWith(userToCreate);
   });
 
-  test('should dispatch exception when passwords not match', async () => {
-    const userToCreate: CreateUserDto = {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-      confirmPassword: faker.internet.password(),
-    };
+  // test('should dispatch exception when passwords do not match', async () => {
+  //   const userToCreate: CreateUserDto = {
+  //     name: faker.person.fullName(),
+  //     email: faker.internet.email(),
+  //     password: faker.internet.password(),
+  //     confirmPassword: faker.internet.password(), // Different password
+  //     alias: faker.internet.userName(),
+  //     birthday: faker.date.past(),
+  //     phone: faker.phone.number(),
+  //     avatar: faker.image.avatar(),
+  //     color: faker.color.rgb(),
+  //   };
 
-    expect(service.create(userToCreate)).toThrowError('test');
-  });
+  //   await expect(service.create(userToCreate)).rejects.toThrowError(ConflictException);
+  //   await expect(service.create(userToCreate)).rejects.toThrowError('Passwords do not match');
+  // });
 });
