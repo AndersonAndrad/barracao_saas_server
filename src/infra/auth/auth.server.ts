@@ -1,9 +1,9 @@
 import { sign, verify } from 'jsonwebtoken';
 
 import { GenerateToken } from '@app/core/interfaces/auth.interface';
+import { Injectable } from '@nestjs/common';
 import { User } from '@app/core/interfaces/user.interface';
 import { generateHash } from '@app/shared/utils/base64.utils';
-import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   invalidateToken(email: string): void {
-    if (this.logedUserMap.has(email)) return;
+    if (!this.logedUserMap.has(email)) return;
 
     const token: string = this.logedUserMap.get(email);
 

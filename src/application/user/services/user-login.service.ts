@@ -24,7 +24,9 @@ export class UserLoginService {
     return this.authService.generateToken(user);
   }
 
-  logout() { }
+  logout(email: string) {
+    this.authService.invalidateToken(email);
+  }
 }
 
 /**
