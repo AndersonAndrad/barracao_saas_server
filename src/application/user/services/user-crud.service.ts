@@ -1,21 +1,21 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { CrudTemplate } from '../../../shared/templates/crud.template';
-import { FilterUser, User } from '../../../core/interfaces/user.interface';
-import { UserRepositorySymbol } from '../../../infra/db/mongoose/repositories/mongoose-user.repository';
 import { UserRepository } from '../../../core/db-repositories/user.repository';
 import { CreateUserDto } from '../../../core/dto/user/create-user.dto';
 import { PaginationResponse } from '../../../core/interfaces/pagination.interface';
+import { FilterUser, User } from '../../../core/interfaces/user.interface';
+import { UserRepositorySymbol } from '../../../infra/db/mongoose/repositories/mongoose-user.repository';
+import { CrudTemplate } from '../../../shared/templates/crud.template';
 
 @Injectable()
 export class UserCrudService implements CrudTemplate<User> {
-  constructor(@Inject(UserRepositorySymbol) private readonly userRepository: UserRepository) {}
+  constructor(@Inject(UserRepositorySymbol) private readonly userRepository: UserRepository) { }
 
   create(user: CreateUserDto): Promise<User> {
     if (!(user.password === user.confirmPassword)) {
       throw new ConflictException('Passwords do not match');
     }
 
-    return this.userRepository.create(user);
+    return this.userRepository.create({ ...user, email: user.email.toLowerCase() });
   }
 
   async deleteOne(userId: string): Promise<void> {

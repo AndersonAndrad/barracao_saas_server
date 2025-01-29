@@ -1,10 +1,10 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilterUser, UpdatePassword, User } from '../../../../core/interfaces/user.interface';
 import { dispatchError, formatMongoDocuments } from '../utils/mongoDocuments.utils';
 
-import { Injectable } from '@nestjs/common';
+import { UserRepository } from '../../../../core/db-repositories/user.repository';
 import { PaginationResponse } from '../../../../core/interfaces/pagination.interface';
 import { UserModel } from '../schemas/user.schema';
-import { UserRepository } from '../../../../core/db-repositories/user.repository';
 import { paginationUtils } from '../utils/paginationUtils';
 
 export const UserRepositorySymbol = Symbol('UserRepositoryDb');
@@ -12,7 +12,9 @@ export const UserRepositorySymbol = Symbol('UserRepositoryDb');
 @Injectable()
 export class MongooseUserRepository implements UserRepository {
   async getByEmail(email: User['email']): Promise<User> {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email: email.toLowerCase() });
+
+    if (!user) throw new NotFoundException();
 
     return formatMongoDocuments<User>(user);
   }

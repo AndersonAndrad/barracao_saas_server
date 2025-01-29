@@ -11,7 +11,7 @@ export class AuthService {
   private readonly userMap: Map<string, Omit<User, 'password'>> = new Map<string, Omit<User, 'password'>>();
   private readonly logedUserMap: Map<string, string> = new Map<string, string>();
 
-  private readonly HASH_TOKEN: string = `_${new Date().getHours()}`;
+  private readonly HASH_TOKEN: string = `THIS_IS_MY_DEV_TOKEN`;
   private readonly HASH_REFRESH_TOKEN: string = `${generateHash()}_${new Date().getMilliseconds()}`;
 
   generateToken(user: Omit<User, 'password'>): GenerateToken {
