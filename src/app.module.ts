@@ -1,14 +1,15 @@
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { Module } from '@nestjs/common';
-import { MongooseModuleConfiguration } from './infra/db/mongoose/mongoose.module';
-import { ScheduleModule } from '@nestjs/schedule';
-import configuration from './core/configuration/configuration';
-import { UserModule } from './application/user/user.module';
-import { InventoryModule } from './application/inventory/inventory.module';
-import { InventoryStockHistoryModule } from './application/inventory-stock-history/inventory-stock-history.module';
 import { BillModule } from './application/bill/bill.module';
+import { InventoryStockHistoryModule } from './application/inventory-stock-history/inventory-stock-history.module';
+import { InventoryModule } from './application/inventory/inventory.module';
+import { MonthlyFeeModule } from './application/monthlyFee/monthlyFee.module';
+import { UserModule } from './application/user/user.module';
+import configuration from './core/configuration/configuration';
+import { MongooseModuleConfiguration } from './infra/db/mongoose/mongoose.module';
 
 @Module({
   imports: [
@@ -24,8 +25,9 @@ import { BillModule } from './application/bill/bill.module';
     InventoryModule,
     InventoryStockHistoryModule,
     BillModule,
+    MonthlyFeeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

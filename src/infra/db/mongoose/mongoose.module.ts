@@ -1,14 +1,15 @@
 import { Logger, Module, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common';
 
-import { DataOptions } from './mongoose.options';
 import mongoose from 'mongoose';
+import { DataOptions } from './mongoose.options';
+import { MonthlyFeeModel } from './schemas/monthlyFee.schema';
 import { UserModel } from './schemas/user.schema';
 
 @Module({ providers: [DataOptions] })
 export class MongooseModuleConfiguration implements OnApplicationBootstrap, OnApplicationShutdown {
   private readonly logger = new Logger('MongooseDb');
 
-  constructor(private options: DataOptions) {}
+  constructor(private options: DataOptions) { }
 
   async onApplicationShutdown() {
     await mongoose.disconnect();
@@ -35,7 +36,7 @@ export class MongooseModuleConfiguration implements OnApplicationBootstrap, OnAp
   }
 
   private async syncIndexes(): Promise<void> {
-    const models = [UserModel];
+    const models = [UserModel, MonthlyFeeModel];
 
     const results = await Promise.allSettled(
       models.map(async (model) => {
