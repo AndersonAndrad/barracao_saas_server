@@ -6,9 +6,10 @@ import {
 import { Module } from '@nestjs/common';
 import { MonthlyFeeController } from './monthlyFee.controller';
 import { MonthlyFeeCrudService } from './services/monthlyFee-crud.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [],
+  imports: [UserModule],
   exports: [MonthlyFeeCrudService],
   controllers: [MonthlyFeeController],
   providers: [

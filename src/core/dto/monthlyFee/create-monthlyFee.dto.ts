@@ -1,15 +1,15 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
-import { CreateMonthlyFee } from '@app/core/interfaces/monthlyFee.interface';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateMonthlyFee } from '@app/core/interfaces/monthlyFee.interface';
 
 export class CreateMonthlyFeeDto implements CreateMonthlyFee {
-  @IsDate()
+  @IsString()
   @IsNotEmpty()
   @ApiProperty({ description: 'Monthly fee due date' })
   dueDate: Date;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   @ApiProperty({ description: 'Monthly fee amount' })
   amount: number;

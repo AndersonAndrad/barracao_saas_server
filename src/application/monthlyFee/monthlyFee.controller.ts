@@ -8,7 +8,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MonthlyFeeCrudService } from './services/monthlyFee-crud.service';
 
 @ApiTags('MonthlyFee')
-@Controller('monthlyFee')
+@Controller('monthly-fee')
 export class MonthlyFeeController implements CrudTemplate<MonthlyFee> {
   constructor(private readonly monthlyFeeCrudService: MonthlyFeeCrudService) { }
 
